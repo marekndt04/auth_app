@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appLabel }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel }}
+    spec:
+      containers:
+        - name: {{ .Values.appContainerName }}
+          image: marendt04/shop_api:latest
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          env:
+            - name: MONGO_USERNAME
+              value: {{ .Values.mongodbUsername }}
+            - name: MONGO_PASSWORD
+              value: {{ .Values.mongodbPassword }}
+            - name: MONGO_HOST
+              value: shop-api-deployment-mongodb-service
+            - name: MONGO_PORT
+              value: "27017"
+            - name: MONGO_DATABASE
+              value: {{ .Values.mongodbDatabase }} 

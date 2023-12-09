@@ -1,0 +1,25 @@
+# Default values for shop_api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+appName: shop-api-deployment
+appLabel: shop-api-label
+appContainerName: shop-api-container
+
+replicaCount: 1
+
+serviceType: ClusterIP
+servicePort: 80
+serviceName: shop-api-service
+serviceLabel: shop-service-label
+
+mongodbUsername: mongodbuser
+mongodbPassword: mongodbpassword
+mongodbDatabase: mongodb
+mongodbPort: "27017"
+
+
+mongoServiceType: ClusterIP
+mongoServicePort: "27017"
+mongoServiceName: mongo-service
+mongoServiceLabel: mongo-service-label
