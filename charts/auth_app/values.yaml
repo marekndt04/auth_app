@@ -1,0 +1,14 @@
+# Default values for shop_api.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+appName: auth-app-deployment
+appLabel: auth-app-label
+appContainerName: auth-app-container
+
+replicaCount: 1
+
+serviceType: ClusterIP
+servicePort: 80
+serviceName: auth-app-service
+serviceLabel: auth-app-label

@@ -1,0 +1,25 @@
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.mypy]
+plugins = [
+    "pydantic.mypy"
+]
+exclude = ["tests", ".tests"]
+ignore_missing_imports = true
+follow_imports = "silent"
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/**", "**/__init__.py", "src/config.py", "src/database.py"]

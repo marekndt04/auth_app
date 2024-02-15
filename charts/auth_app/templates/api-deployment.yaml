@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appLabel }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel }}
+    spec:
+      containers:
+        - name: {{ .Values.appContainerName }}
+          image: marendt04/auth_app:latest
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http

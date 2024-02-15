@@ -1,0 +1,41 @@
+name: CI/CD Pipeline (Common)
+
+on:
+  workflow_call
+
+env:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: pass123
+  POSTGRES_DB: auth-app-db
+
+jobs:
+  run-tests-and-linter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/test.txt
+
+      - name: Run Tests
+        run: |
+          coverage run -m pytest -rf
+          flake8
+          coverage report --fail-under=100
+
+      - name: Run Linter
+        run: |
+          black .
+          mypy .
